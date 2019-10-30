@@ -2,3 +2,6 @@ python-dotenv
 requests
 Flask
 redis
+json
+psutil
+urllib3
