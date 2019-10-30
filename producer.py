@@ -1,4 +1,4 @@
-import psutil, sched, time, os, requests, sys, random
+import psutil, time, os, requests, sys, random
 from dotenv import load_dotenv
 
 
@@ -12,7 +12,10 @@ try:
     while True:
         ps_stat = {'cpu': psutil.cpu_percent(float(INTERVAL)), 'gpu': float("%.1f" % (random.random()*100))}
         print(ps_stat)
-        requests.post(RECEIVER_URL, json = ps_stat)
+        try:
+            requests.post(RECEIVER_URL, json = ps_stat)
+        except requests.exceptions.ConnectionError:
+            print("Connection error")
 except KeyboardInterrupt:
     print('Stop service.\nNow param =', {'cpu': psutil.cpu_percent(1), 'gpu': float("%.1f" % (random.random()*100))})
     sys.exit()
